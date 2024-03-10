@@ -4,14 +4,13 @@
   clear
 
 # Créditos, si los borras, te buscaré y te nalguearé
-  echo " Script creado por Proyectos Himmeros "
+  echo " Script creado por Proyectos Himmeros para Ra+"
   echo " se va a actualizar Linux y a instalar Webmin "
 # -------------------------------------------------------------------- #
 
 ## Pongo el prompt bonito ::
 
-echo 'export PS1="\[\e[34m\]\u\[\e[m\]@\[\e[31m\]\h\[\e[m\]:\[\e[32m\]\w\[\e[m\]"' >> $HOME/.profile
-
+echo 'export PS1="\[\e[34m\]\u\[\e[m\]@\[\e[31m\]\h\[\e[m\]:\[\e[32m\]\w\[\e[m\] "' >> $HOME/.profile
 ## Corrigo la fecha ::
 
 timedatectl set-timezone America/Caracas
@@ -20,11 +19,12 @@ timedatectl set-timezone America/Caracas
 
   sudo apt -y update
   sudo apt -y upgrade
-    ## Instalo algunas herramientas
+## Instalo algunas herramientas
   sudo apt -y install net-tools
 
 # -------------------------------------------------------------------- #
 
+# Webmin
 ## Importante ::
 
     clear
@@ -42,46 +42,45 @@ timedatectl set-timezone America/Caracas
     sudo apt -y install --install-recommends webmin
     echo ' Una vez instalado webmin se debe abrir el puerto 10000 para que acepte las conexiones . '
 
-## Instalación de Docker
+# Instalación de Kurento, será en modo local
+## Instalamos y actualizamos algunas cositas
 
-## Instalo certificados
+    sudo apt-get -y update ; sudo apt-get install --no-install-recommends gnupg
 
-    sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo apt-key fingerprint 0EBFCD88
+## Tomado del sitio oficial https://doc-kurento.readthedocs.io/en/latest/user/installation.html#local-installation
 
-## Añado el repositorio de Docker ::
+    # Get DISTRIB_* env vars.
+    source /etc/upstream-release/lsb-release 2>/dev/null || source /etc/lsb-release
 
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    # Add Kurento repository key for apt-get.
+    sudo apt-key adv \
+    --keyserver hkp://keyserver.ubuntu.com:80 \
+    --recv-keys 234821A61B67740F89BFD669FC8A16625AFA7A83
 
-## Con esto instalamos la última versión de Docker ::
+    # Añado Kurento al repositorio.
 
-    apt -y install docker-ce docker-ce-cli containerd.io
+    echo "deb [arch=amd64] http://ubuntu.openvidu.io/7.0.0 $DISTRIB_CODENAME main" | sudo tee -a /etc/apt/sources.list.d/kurento.list
+    
+    sudo apt-get -y update ; sudo apt-get -y install --no-install-recommends kurento-media-server
+    sudo apt-get -y install maven
 
-## Verificamos que Docker esté instalado ::
+## Inicio Kurento
+    sudo service kurento-media-server start
 
-    docker run hello-world
+## Comprobación de funcionamiento 
 
-## Instalación de docker-compose
+    curl \
+        --include \
+        --header "Connection: Upgrade" \
+        --header "Upgrade: websocket" \
+        --header "Host: 127.0.0.1:8888" \
+        --header "Origin: 127.0.0.1" \
+        "http://127.0.0.1:8888/kurento"
 
-    sudo apt -y update
-    sudo apt -y install docker-compose
-    docker-compose --version
+## Servidor NetCap
 
-## Instalación Portainer
+    sudo apt-get -y update
+    sudo apt-get -y install netcat-openbsd
 
-## Por seguridad y control todo será instalado en /home
 
-    mkdir /home/portainer
-    cd /home/portainer
 
-    sudo docker volume create portainer_data
-    sudo docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
-
-    echo ' Posteriormente se debe abrir el puerto 9443 para poder acceder a Portainer . '
-    echo ' Una vez alcanzado el acceso se debe registrar al usuario administrativo . '
-
-## Instalación de docker Kuranto 
-
-    sudo docker pull kurento/kurento-media-server:7.0.0
-    sudo docker run -d --name kurento --network host kurento/kurento-media-server:7.0.0
