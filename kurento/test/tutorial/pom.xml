@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Maven coordinates -->
+	<parent>
+		<groupId>org.kurento</groupId>
+		<artifactId>kurento-parent-pom</artifactId>
+		<version>7.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.kurento.tutorial</groupId>
+	<artifactId>kurento-tutorial-test</artifactId>
+	<packaging>pom</packaging>
+
+	<!-- Project-level information -->
+	<name>Kurento Java Client Tutorials - Test Suite</name>
+	<description>
+		Test suite for tutorial projects.
+	</description>
+	<scm>
+		<url>https://github.com/Kurento/kurento</url>
+		<connection>scm:git:https://github.com/Kurento/kurento.git</connection>
+		<developerConnection>scm:git:ssh://github.com/Kurento/kurento.git</developerConnection>
+	</scm>
+
+	<!-- Project configuration -->
+
+	<properties>
+		<!-- Kurento tutorials version to be tested -->
+		<version.kurento-java>${project.version}</version.kurento-java>
+		<version.kurento-tutorials>${project.version}</version.kurento-tutorials>
+
+		<!-- Cross plugins settings -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<modules>
+		<module>chroma-test</module>
+		<module>crowddetector-test</module>
+		<module>hello-world-test</module>
+		<module>magic-mirror-test</module>
+		<module>one2many-call-test</module>
+		<module>one2one-call-test</module>
+		<module>one2one-call-advanced-test</module>
+		<module>platedetector-test</module>
+		<module>pointerdetector-test</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kurento</groupId>
+			<artifactId>kurento-test</artifactId>
+			<version>${version.kurento-java}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
