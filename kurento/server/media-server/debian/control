@@ -1,0 +1,109 @@
+Source: kurento-media-server
+Maintainer: Kurento <kurento@openvidu.io>
+Priority: optional
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ gstreamer1.0-plugins-good,
+ kurento-cmake-utils (>= 7.0.2),
+ kurento-module-core-dev (>= 7.0.2),
+ kurento-module-creator (>= 7.0.2),
+ kurento-module-elements-dev (>= 7.0.2),
+ kurento-module-filters-dev (>= 7.0.2),
+ libboost-dev,
+ libboost-filesystem-dev,
+ libboost-log-dev,
+ libboost-program-options-dev,
+ libboost-system-dev,
+ libboost-test-dev,
+ libboost-thread-dev,
+ libevent-dev,
+ libglibmm-2.4-dev,
+ libgstreamer-plugins-base1.0-dev,
+ libsigc++-2.0-dev,
+ libwebsocketpp-dev,
+ pkg-config,
+Standards-Version: 4.5.1
+Homepage: https://kurento.openvidu.io/
+Vcs-Browser: https://github.com/Kurento/kurento
+Vcs-Git: https://github.com/Kurento/kurento.git
+Rules-Requires-Root: no
+
+Package: kurento-media-server
+Architecture: any
+Section: video
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ binutils,
+ gstreamer1.0-libav,
+ gstreamer1.0-plugins-bad,
+ gstreamer1.0-plugins-base,
+ gstreamer1.0-plugins-good,
+ gstreamer1.0-plugins-ugly,
+ kurento-module-core (>= 7.0.2),
+ kurento-module-elements (>= 7.0.2),
+ kurento-module-filters (>= 7.0.2),
+ libgstreamer-plugins-base1.0-0,
+Suggests:
+ kurento-dbg,
+Breaks:
+ kurento-media-server-6.0,
+Replaces:
+ kurento-media-server-6.0,
+Description: Kurento Media Server
+ Kurento Media Server is a WebRTC-compatible server that processes audio
+ and video streams, doing composable pipeline-based processing of media.
+
+Package: kurento-media-server-dev
+Architecture: any
+Section: devel
+Depends:
+ ${misc:Depends},
+ cmake,
+ kurento-cmake-utils (>= 7.0.2),
+ kurento-media-server (= ${binary:Version}),
+ kurento-module-core-dev (>= 7.0.2),
+ kurento-module-creator (>= 7.0.2),
+ kurento-module-elements-dev (>= 7.0.2),
+ kurento-module-filters-dev (>= 7.0.2),
+ libboost-log-dev,
+ libboost-program-options-dev,
+ libboost-thread-dev,
+ libevent-dev,
+ libwebsocketpp-dev,
+ pkg-config,
+Breaks:
+ kurento-media-server-6.0-dev,
+Replaces:
+ kurento-media-server-6.0-dev,
+Description: Kurento Media Server
+ Development files.
+
+Package: kurento-dbg
+Architecture: any
+Section: debug
+Depends:
+ ${misc:Depends},
+ gstreamer1.0-libav-dbg,
+ gstreamer1.0-nice-dbgsym,
+ gstreamer1.0-plugins-bad-dbg,
+ gstreamer1.0-plugins-base-dbg,
+ gstreamer1.0-plugins-good-dbg,
+ gstreamer1.0-plugins-ugly-dbg,
+ kurento-jsonrpc-dbgsym,
+ kurento-media-server-dbgsym,
+ kurento-module-core-dbgsym,
+ kurento-module-elements-dbgsym,
+ kurento-module-filters-dbgsym,
+ libc6-dbgsym | libc6-dbg,
+ libglib2.0-0-dbgsym | libglib2.0-0-dbg,
+ libgstreamer1.0-0-dbg,
+ libjsoncpp1-dbgsym,
+ libnice10-dbgsym | libnice-dbg,
+ libsoup2.4-1-dbgsym,
+ libsrtp-kurento-dbg,
+ libusrsctp1-dbgsym,
+Description: Meta-package that installs debug symbols
+ This package depends on all debug packages for Kurento Media Server
+ and relevant 3rd-party libraries.

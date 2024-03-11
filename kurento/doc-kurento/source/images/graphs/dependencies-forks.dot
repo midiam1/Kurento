@@ -1,0 +1,18 @@
+digraph dependencies_forks {
+  bgcolor = "transparent";
+  fontname = "Bitstream Vera Sans";
+  fontsize = 8;
+  size = "12,8";
+
+  rankdir = "RL";
+
+  // Forks and external libraries.
+  {
+    rank = "same";
+    "libsrtp";
+    "openh264";
+    "gst-plugins-good";
+    "libnice";
+  }
+  "openh264-gst-plugin" -> {"openh264"};
+}

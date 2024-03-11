@@ -1,0 +1,29 @@
+Source: kurento-cmake-utils
+Maintainer: Kurento <kurento@openvidu.io>
+Priority: optional
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+Standards-Version: 4.5.1
+Homepage: https://kurento.openvidu.io/
+Vcs-Browser: https://github.com/Kurento/kurento
+Vcs-Git: https://github.com/Kurento/kurento.git
+Rules-Requires-Root: no
+
+Package: kurento-cmake-utils
+Architecture: all
+Section: devel
+Depends:
+ ${misc:Depends},
+ cmake,
+ pkg-config,
+Recommends:
+ dpkg-dev,
+ git,
+Suggests:
+ valgrind,
+Description: CMake utilities used when building Kurento modules.
+ Custom CMake modules, required to build Kurento.
+ .
+ This package contains modules that provide common build flags,
+ and helpers for glib, git, tests, versions management, and others.

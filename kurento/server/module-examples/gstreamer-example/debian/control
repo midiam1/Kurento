@@ -1,0 +1,42 @@
+Source: kurento-module-gstreamer-example
+Maintainer: Kurento <kurento@openvidu.io>
+Priority: optional
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ kurento-cmake-utils,
+ kurento-module-core-dev,
+ kurento-module-elements-dev,
+ kurento-module-filters-dev,
+ libboost-dev,
+ libgstreamer-plugins-base1.0-dev,
+ libgstreamer1.0-dev,
+ libopencv-dev,
+ pkg-config,
+Standards-Version: 4.5.1
+Homepage: https://kurento.openvidu.io/
+Vcs-Browser: https://github.com/Kurento/kurento
+Vcs-Git: https://github.com/Kurento/kurento.git
+Rules-Requires-Root: no
+
+Package: kurento-module-gstreamer-example
+Architecture: any
+Section: libs
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Kurento GStreamer filter plugin sample
+
+Package: kurento-module-gstreamer-example-dev
+Architecture: any
+Section: libdevel
+Depends:
+ ${misc:Depends},
+ kurento-module-core-dev,
+ kurento-module-elements-dev,
+ kurento-module-filters-dev,
+ kurento-module-gstreamer-example (= ${binary:Version}),
+ libboost-dev,
+ libgstreamer1.0-dev,
+ libopencv-dev,
+Description: Kurento GStreamer filter plugin sample (development files)

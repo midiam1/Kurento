@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	./alvar-patch.sh && dh_auto_configure

@@ -1,0 +1,77 @@
+Source: kurento-module-core
+Maintainer: Kurento <kurento@openvidu.io>
+Priority: optional
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ gstreamer1.0-libav,
+ gstreamer1.0-plugins-bad,
+ gstreamer1.0-plugins-base,
+ gstreamer1.0-plugins-good,
+ gstreamer1.0-plugins-ugly,
+ kurento-cmake-utils (>= 7.0.2),
+ kurento-jsonrpc-dev (>= 7.0.2),
+ kurento-module-creator (>= 7.0.2),
+ libboost-filesystem-dev,
+ libboost-regex-dev,
+ libboost-system-dev,
+ libboost-test-dev,
+ libboost-thread-dev,
+ libglibmm-2.4-dev,
+ libgstreamer-plugins-base1.0-dev,
+ libgstreamer1.0-dev,
+ libsigc++-2.0-dev,
+ libvpx-dev,
+ uuid-dev,
+Standards-Version: 4.5.1
+Homepage: https://kurento.openvidu.io/
+Vcs-Browser: https://github.com/Kurento/kurento
+Vcs-Git: https://github.com/Kurento/kurento.git
+Rules-Requires-Root: no
+
+Package: kurento-module-core
+Architecture: any
+Section: libs
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ gstreamer1.0-plugins-base,
+ kurento-jsonrpc (>= 7.0.2),
+Breaks:
+ kms-core-6.0,
+ kms-core,
+Replaces:
+ kms-core-6.0,
+ kms-core,
+Description: Core module for use by Kurento Media Server
+ Kurento core module - Shared library.
+
+Package: kurento-module-core-dev
+Architecture: any
+Section: libdevel
+Depends:
+ ${misc:Depends},
+ kurento-cmake-utils (>= 7.0.2),
+ kurento-jsonrpc-dev (>= 7.0.2),
+ kurento-module-core (= ${binary:Version}),
+ kurento-module-creator (>= 7.0.2),
+ libboost-filesystem-dev,
+ libboost-regex-dev,
+ libboost-system-dev,
+ libboost-test-dev,
+ libboost-thread-dev,
+ libglibmm-2.4-dev,
+ libgstreamer-plugins-base1.0-dev,
+ libgstreamer1.0-dev,
+ libsigc++-2.0-dev,
+ libvpx-dev,
+ libxml2-utils,
+ uuid-dev,
+Breaks:
+ kms-core-6.0-dev,
+ kms-core-dev,
+Replaces:
+ kms-core-6.0-dev,
+ kms-core-dev,
+Description: Core module for use by Kurento Media Server
+ Kurento core module - Development files.

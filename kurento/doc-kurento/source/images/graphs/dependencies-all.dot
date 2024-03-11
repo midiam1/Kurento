@@ -1,0 +1,43 @@
+digraph dependencies_all {
+  bgcolor = "transparent";
+  fontname = "Bitstream Vera Sans";
+  fontsize = 8;
+  size = "12,8";
+
+  rankdir = "RL";
+
+  // Forks and external libraries.
+  {
+    rank = "same";
+    "libsrtp";
+    "openh264";
+    "gst-plugins-good";
+    "libnice";
+    "openh264-gst-plugin" -> "openh264";
+  }
+
+  // Main components.
+  "module-creator";
+  "cmake-utils";
+  "jsonrpc" -> "cmake-utils";
+
+  "module-core" [group = "1"];
+  "module-elements" [group = "1"];
+  "module-filters" [group = "1"];
+  "media-server" [group = "1"];
+
+  "module-core" -> {"module-creator" "cmake-utils" "jsonrpc"};
+  "module-elements" -> {"libsrtp" "gst-plugins-good" "libnice" "openh264-gst-plugin" "module-core"};
+  "module-filters" -> "module-elements";
+  "media-server" -> {"module-core" "module-elements" "module-filters"};
+
+  // Example plugins.
+  "module-chroma" -> "media-server";
+  "module-datachannelexample" -> "media-server";
+
+  // Build disabled on Ubuntu >= 20.04 (due to breaking changes in OpenCV 4.0).
+  "module-crowddetector (unavailable)" -> "media-server";
+  "module-markerdetector (unavailable)" -> "media-server";
+  "module-platedetector (unavailable)" -> "media-server";
+  "module-pointerdetector (unavailable)" -> "media-server";
+}

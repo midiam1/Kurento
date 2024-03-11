@@ -1,0 +1,50 @@
+Source: kurento-module-datachannelexample
+Maintainer: Kurento <kurento@openvidu.io>
+Priority: optional
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ kurento-module-core-dev,
+ kurento-module-elements-dev,
+ kurento-module-filters-dev,
+ libgstreamer-plugins-base1.0-dev,
+ libopencv-dev,
+ pkg-config,
+Standards-Version: 4.5.1
+Homepage: https://kurento.openvidu.io/
+Vcs-Browser: https://github.com/Kurento/kurento
+Vcs-Git: https://github.com/Kurento/kurento.git
+Rules-Requires-Root: no
+
+Package: kurento-module-datachannelexample
+Architecture: any
+Section: libs
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ gstreamer1.0-plugins-bad,
+ gstreamer1.0-plugins-base,
+ gstreamer1.0-x,
+Recommends:
+ fonts-droid-fallback,
+Breaks:
+ kms-datachannelexample,
+Replaces:
+ kms-datachannelexample,
+Description: Kurento WebRTC DataChannel example
+
+Package: kurento-module-datachannelexample-dev
+Architecture: any
+Section: libdevel
+Depends:
+ ${misc:Depends},
+ kurento-module-core-dev,
+ kurento-module-datachannelexample (= ${binary:Version}),
+ kurento-module-elements-dev,
+ kurento-module-filters-dev,
+ libopencv-dev,
+Breaks:
+ kms-datachannelexample-dev,
+Replaces:
+ kms-datachannelexample-dev,
+Description: Kurento WebRTC DataChannel example - Development files

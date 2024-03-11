@@ -1,0 +1,59 @@
+Source: kurento-module-platedetector
+Maintainer: Kurento <kurento@openvidu.io>
+Priority: optional
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ gstreamer1.0-plugins-bad,
+ gstreamer1.0-plugins-base,
+ gstreamer1.0-plugins-good,
+ kurento-module-core-dev (>= 7.0.2),
+ kurento-module-elements-dev (>= 7.0.2),
+ kurento-module-filters-dev (>= 7.0.2),
+ libopencv-dev,
+ libtesseract-dev,
+ pkg-config,
+Standards-Version: 4.5.1
+Homepage: https://kurento.openvidu.io/
+Vcs-Browser: https://github.com/Kurento/kurento
+Vcs-Git: https://github.com/Kurento/kurento.git
+Rules-Requires-Root: no
+
+Package: kurento-module-platedetector
+Architecture: any
+Section: libs
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ gstreamer1.0-plugins-bad,
+ gstreamer1.0-plugins-base,
+ gstreamer1.0-plugins-good,
+ kurento-module-core (>= 7.0.2),
+ kurento-module-elements (>= 7.0.2),
+ kurento-module-filters (>= 7.0.2),
+Breaks:
+ kms-platedetector-6.0,
+ kms-platedetector,
+Replaces:
+ kms-platedetector-6.0,
+ kms-platedetector,
+Description: Kurento Plate Detector filter
+
+Package: kurento-module-platedetector-dev
+Architecture: any
+Section: libdevel
+Depends:
+ ${misc:Depends},
+ kurento-module-core-dev (>= 7.0.2),
+ kurento-module-elements-dev (>= 7.0.2),
+ kurento-module-filters-dev (>= 7.0.2),
+ kurento-module-platedetector (= ${binary:Version}),
+ libopencv-dev,
+ libtesseract-dev,
+Breaks:
+ kms-platedetector-6.0-dev,
+ kms-platedetector-dev,
+Replaces:
+ kms-platedetector-6.0-dev,
+ kms-platedetector-dev,
+Description: Kurento Plate Detector filter - Development files

@@ -1,0 +1,243 @@
+=========================
+Kurento 7.0 Release Notes
+=========================
+
+A new Major version release of Kurento. This brings the opportunity to make breaking changes, which is used to clean the API a bit and fix some long standing issues with small details of the media server, such as the encoding format of audio recordings.
+
+Kurento 7.0.0 was originally released on 22 March 2023.
+
+The latest `bug-fix release <#bug-fix-releases>`__ in the stable 7.0 series is **7.0.1**.
+
+See https://doc-kurento.readthedocs.io/en/latest/project/relnotes/7.0.html for the latest version of this document.
+
+To install Kurento Media Server: :doc:`/user/installation`.
+
+.. contents:: Table of Contents
+
+
+
+Kurento 6.x to 7.0 Upgrade Guide
+================================
+
+This section details all API changes that occur between Kurento versions 6 and 7. Following the method or member renames detailed here, you should be able to make the jump to newer versions of Kurento without requiring any rewrites at the logic level.
+
+
+
+timestamp -> timestampMillis
+----------------------------
+
+Several object classes contained a ``timestamp`` field, which wasn't fine-grained enough, so the ``timestampMillis`` field was introduced to replace the former.
+
+These classes are ``Stats`` (common parent of all Stats classes), and ``RaiseBase`` (common parent of all ``Event`` classes).
+
+* Old: ``timestamp`` - Seconds elapsed since the UNIX Epoch (Jan 1, 1970, UTC)
+
+  New: ``timestampMillis`` - Milliseconds elapsed since the UNIX Epoch (Jan 1, 1970, UTC)
+
+
+
+MediaObject and MediaElement
+----------------------------
+
+These changes are located in the parent classes of all Kurento elements, so all Kurento classes are affected, such as ``RtpEndpoint``, ``WebRtcEndpoint``, ``PlayerEndpoint``, ``RecorderEndpoint``, etc.
+
+
+
+Media Events
+~~~~~~~~~~~~
+
+A series of deprecations and renamings that normalize all events into the same naming convention.
+
+* Old: ``MediaFlowOutStateChange`` event
+
+  New: ``MediaFlowOutStateChanged`` event
+
+* Old: ``MediaFlowInStateChange`` event
+
+  New: ``MediaFlowInStateChanged`` event
+
+* Old: ``MediaTranscodingStateChange`` event
+
+  New: ``MediaTranscodingStateChanged`` event
+
+
+
+childs -> children
+~~~~~~~~~~~~~~~~~~
+
+* Old: ``MediaObject.getChilds()``
+
+  New: ``MediaObject.getChildren()``
+
+
+OuputBitrate, OutputBitrate -> EncoderBitrate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All ``MediaElement``-derived classes had a ``setOutputBitrate()`` method that could be used to control the resulting bitrate of elements that perform encoding. This method was broken and didn't actually work as intended, see `Kurento/kms-core#30 <https://github.com/Kurento/kms-core/pull/30>`__ for more details.
+
+Instead of the *OutputBitrate* methods, use the new *EncoderBitrate* ones:
+
+* Old: ``setOutputBitrate()``
+* New: ``setEncoderBitrate()``
+
+* Old: ``setMinOutputBitrate()``, ``setMaxOutputBitrate()``
+* New: ``setMinEncoderBitrate()``, ``setMaxEncoderBitrate()``
+
+
+
+WebRtcEndpoint
+--------------
+
+ICE Events
+~~~~~~~~~~
+
+A series of deprecations and renamings that normalize all events into the same naming convention.
+
+* Old: ``OnIceCandidate`` event
+
+  New: ``IceCandidateFound`` event
+
+* Old: ``OnIceGatheringDone`` event
+
+  New: ``IceGatheringDone`` event
+
+* Old: ``OnIceComponentStateChanged``, ``IceComponentStateChange`` events
+
+  New: ``IceComponentStateChanged`` event
+
+* Old: ``OnDataChannelOpened``, ``DataChannelOpen`` events
+
+  New: ``DataChannelOpened`` event
+
+* Old: ``OnDataChannelClosed``, ``DataChannelClose`` event
+
+  New: ``DataChannelClosed`` event
+
+
+
+externalAddress -> externalIPv4, externalIPv6
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Old: ``externalAddress`` setting
+
+  New: ``externalIPv4``, ``externalIPv6`` settings
+
+* Old: ``getExternalAddress()``
+
+  New: ``getExternalIPv4()``, ``getExternalIPv6()``
+
+* Old: ``setExternalAddress()``
+
+  New: ``setExternalIPv4()``, ``setExternalIPv6()``
+
+
+
+IceCandidatePair
+----------------
+
+Unifies all Kurento "Id" members under the same naming convention.
+
+* Old: ``streamID``
+
+  New: ``streamId``
+
+* Old: ``componentID``
+
+  New: ``componentId``
+
+
+
+Stats
+-----
+
+inputAudioLatency, inputVideoLatency -> inputLatency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Old: ``ElementStats.inputAudioLatency``, ``ElementStats.inputVideoLatency`` - Average latency, in nanoseconds.
+
+  New: ``ElementStats.inputLatency`` - Array of average latencies (``MediaLatencyStat[]``), in nanoseconds.
+
+
+
+audioE2ELatency, videoE2ELatency -> E2ELatency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Old: ``EndpointStats.audioE2ELatency``, ``EndpointStats.videoE2ELatency`` - End-to-end latency, in nanoseconds.
+
+  New: ``EndpointStats.E2ELatency`` - Array of average latencies (``MediaLatencyStat[]``), in nanoseconds.
+
+
+
+Added
+=====
+
+requestKeyframe()
+-----------------
+
+This method has been added to RTP-based elements (*RtpEndpoint*, *WebRtcEndpoint*) in order to allow requesting new keyframes from subscribing elements. This can be useful for streaming applications that want to force a new video keyframe on specific points in time.
+
+Kurento Client API docs: `Java <../../_static/client-javadoc/org/kurento/client/BaseRtpEndpoint.html#requestKeyframe()>`__, `JavaScript <../../_static/client-jsdoc/module-core_abstracts.BaseRtpEndpoint.html#.requestKeyframe>`__.
+
+
+
+Changed
+=======
+
+* Change MP4 recorder audio codec from MP3 to AAC. This was a bad decision taken during the first stages of Kurento development, and couldn't be changed until now as it was considered a breaking change for user's media processing pipelines.
+
+  Thanks to `@Vijay-mRoads <https://github.com/Vijay-mRoads>`__ for `Kurento/kms-core#11 <https://github.com/Kurento/kms-core/pull/11>`__ (*Change MP4 recorder audio codec from MP3 to AAC*).
+
+
+
+Removed
+=======
+
+Kurento has always included several Computer Vision plugins and extension modules, *for demonstration purposes*. These were used to showcase the powerful, dynamic plug-and-play capabilities of Kurento Pipelines, providing a somewhat fancy way to convey how easy it is to manipulate video images in real time, with Kurento and OpenCV.
+
+However, Kurento's OpenCV modules had been written against the old, C-based API of OpenCV 2.0. This was supported until OpenCV 4.0, which **marks the point where the code doesn't compile and must be disabled** (for now). List of disabled plugins:
+
+* kms-crowddetector
+* kms-markerdetector
+* kms-platedetector
+* kms-pointerdetector
+
+These won't be available for installation. In future releases they might be brought up-to-date with the OpenCV C++ API, but no promises are made. If you'd like to see these plugins alive again, please make a Pull Request and/or contact us!.
+
+
+
+Fixed
+=====
+
+* Frame skipping when using ``PlayerEndpoint.setPosition()``. This was caused by the incorrect usage of `GST_SEEK_FLAG_TRICKMODE <https://gstreamer.freedesktop.org/documentation/gstreamer/gstsegment.html#GST_SEEK_FLAG_TRICKMODE>`__.
+
+  Thanks to `@slabajo <https://github.com/slabajo>`__ (Saúl Labajo) for `Kurento/kms-elements#44 <https://github.com/Kurento/kms-elements/pull/44>`__ (*Remove seek flags trickmode*).
+
+* Duplicated element IDs with high loads. Two MediaPipelines or MediaElements could end up with the same element ID (which is supposed to always be unique) due to missing thread-safety mechanisms around the UUID library calls.
+
+  Thanks to `@slabajo <https://github.com/slabajo>`__ (Saúl Labajo) for `Kurento/kurento#4 <https://github.com/Kurento/kurento/pull/4>`__ (*Update UUIDGenerator.cpp*).
+
+* Couldn't use special charachters (``/ ? @``) in *PlayerEndpoint* and *RecorderEndpoint* URIs. This mainly affected users wanting to play RTSP sources, and it was caused by limitations in both sides of Kurento and the underlying GStreamer library. It should now be possible to use special characters in either of the username or password, which must be URL-encoded fields.
+
+  Kurento Client API docs: `Java <../../_static/client-javadoc/org/kurento/client/PlayerEndpoint.html>`__, `JavaScript <../../_static/client-jsdoc/module-elements.PlayerEndpoint.html>`__.
+
+
+
+Bug-fix releases
+================
+
+7.0.1
+-----
+
+Released on 27 April 2023.
+
+* Fix incorrect out caps from **audiomixer** element.
+
+  The audiomixer was *sometimes* outputting mono audio, after the downstream WEBM muxer (in RecorderEndpoint) had been configured for 2 channels. This caused an error in the webmmuxer, because changing caps is not supported.
+
+* Rework **EncoderBitrate**. Improve **Transcoding** event (`#24 <https://github.com/Kurento/kurento/pull/24>`__).
+
+  Debug messages explaining what is going on with the different values were very confusing, so now they were rewritten to make them clearer.
+
+  The *Transcoding* event was not correctly emitted under some conditions like first connecting a compatible sink, then adding an incompatible one which needed transcoding; the latter would not cause a "transcoding active" event.
+
+  Handling of target/min/max bitrate for the encoder was very confusing, because it only took place at the beginning when loading those values from the Kurento .conf files. From that point, client calls to set new values would only have an effect *if the agnosticbin / enctreebin was already active*.
