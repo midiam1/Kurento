@@ -10,17 +10,17 @@
 
 ## Pongo el prompt bonito ::
 
-echo 'export PS1="\[\e[34m\]\u\[\e[m\]@\[\e[31m\]\h\[\e[m\]:\[\e[32m\]\w\[\e[m\] "' >> $HOME/.profile
+    echo 'export PS1="\[\e[34m\]\u\[\e[m\]@\[\e[31m\]\h\[\e[m\]:\[\e[32m\]\w\[\e[m\] "' >> $HOME/.profile
 ## Corrigo la fecha ::
 
-timedatectl set-timezone America/Caracas
+    timedatectl set-timezone America/Caracas
 
-  echo " Actualizo ... "
+    echo " Actualizo ... "
 
-  sudo apt -y update
-  sudo apt -y upgrade
+    sudo apt -y update
+    sudo apt -y upgrade
 ## Instalo algunas herramientas
-  sudo apt -y install net-tools
+    sudo apt -y install net-tools
 
 # -------------------------------------------------------------------- #
 
@@ -81,6 +81,4 @@ timedatectl set-timezone America/Caracas
 
     sudo apt-get -y update
     sudo apt-get -y install netcat-openbsd
-
-
-
+#
