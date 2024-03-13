@@ -26,7 +26,7 @@
 
 ## Instalo algunas herramientas
 
-    sudo apt -y install net-tools
+    sudo apt -y install net-tools mc
 
 # -------------------------------------------------------------------- #
 
