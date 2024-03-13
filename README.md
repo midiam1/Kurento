@@ -20,3 +20,10 @@ Este guión pretende instalar Kurento en modo local, además de otras herramient
 * <a href="https://es.wikipedia.org/wiki/Netcat" target _blank>NetCat</a>
 
 <hr>
+
+Instrucciones de instalación
+
+    git clone https://github.com/midiam1/Kurento
+	cd Kurento
+	sudo chmod +x kurento.sh
+    ./kurento.sh
